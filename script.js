@@ -43,7 +43,6 @@ function addTaskToDOM(task) {
     document.querySelector('#taskList tbody').appendChild(taskRow);
 }
 
-
 let timers = {};
 let activeTaskId = null; // Adiciona uma variável para rastrear a tarefa ativa
 
@@ -55,13 +54,16 @@ function startTimer(taskId) {
     const tasks = JSON.parse(localStorage.getItem('tasks'));
     const task = tasks.find(t => t.id === taskId);
 
+    const startTime = Date.now() - (timers[taskId]?.elapsed || 0); // Subtrai o tempo já decorrido
+
     // Inicializa o cronômetro específico da tarefa
-    timers[taskId] = { seconds: task.timeSpent };
+    timers[taskId] = { startTime, elapsed: task.timeSpent };
     activeTaskId = taskId; // Define a tarefa ativa
     
     timers[taskId].interval = setInterval(() => {
-        timers[taskId].seconds++;
-        task.timeSpent = timers[taskId].seconds; // Atualiza o tempo no objeto
+        const currentTime = Date.now();
+        const elapsedTime = Math.floor((currentTime - timers[taskId].startTime) / 1000); // Tempo decorrido em segundos
+        task.timeSpent = timers[taskId].elapsed + elapsedTime; // Atualiza o tempo no objeto
         updateTaskDisplay(task);
         updateLocalStorage(tasks);
         updateTotalTime(tasks); // Atualiza o tempo total
@@ -77,6 +79,16 @@ function startTimer(taskId) {
 
 function stopTimer(taskId) {
     clearInterval(timers[taskId]?.interval);
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    const task = tasks.find(t => t.id === taskId);
+
+    const currentTime = Date.now();
+    const elapsedTime = Math.floor((currentTime - timers[taskId].startTime) / 1000); // Calcula o tempo decorrido
+    task.timeSpent += elapsedTime; // Atualiza o tempo da tarefa
+    timers[taskId].elapsed = task.timeSpent; // Salva o tempo total decorrido
+    updateTaskDisplay(task);
+    updateLocalStorage(tasks); // Salva as alterações no localStorage
+    
     delete timers[taskId]; // Remove o cronômetro específico da tarefa
     if (activeTaskId === taskId) {
         activeTaskId = null; // Reseta a tarefa ativa se ela for parada
@@ -126,9 +138,6 @@ function deleteTask(taskId) {
     updateTotalTime(tasks); // Atualiza o tempo total após a exclusão
 }
 
-
-
-
 function updateTotalTime(tasks) {
     const totalSeconds = tasks.reduce((acc, task) => acc + task.timeSpent, 0);
     const totalTimeElement = document.getElementById('totalTime');
@@ -136,4 +145,4 @@ function updateTotalTime(tasks) {
 }
 
 // Carrega as tarefas ao iniciar
-loadTasks(); 
+loadTasks();
