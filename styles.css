@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    position: sticky; /* Torna o cabeçalho fixo ao rolar */
+    top: 0; /* Fica fixo no topo */
+    background-color: #white; /* Fundo igual ao do body para evitar sobreposição */
+    z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
+	user-select: none; /* Impede a seleção de texto */
+	text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+    position: sticky; /* Torna o formulário fixo ao rolar */
+    top: 40px; /* Distância do topo para o formulário */
+    background-color: #white; /* Fundo igual ao do body para evitar sobreposição */
+    z-index: 999; /* Garante que o formulário fique acima de outros elementos */
+	user-select: none; /* Impede a seleção de texto */
+}
+
+input {
+    padding: 8px;
+    margin-right: 10px;
+	border-radius: 4px;
+}
+
+button {
+	background-color: #22c822;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none; /* Remove a borda padrão do botão */
+    border-radius: 4px; /* Borda arredondada */
+    transition: background-color 0.3s; /* Efeito de transição */
+	user-select: none; /* Impede a seleção de texto */
+}
+
+button:hover {
+    opacity: 0.9; /* Efeito de hover para todos os botões */
+}
+
+/* Estilo para o botão "Iniciar" */
+button.start {
+    background-color: #fff; /* Cor branco padrão */
+    color: black; /* Cor do texto */
+	border: 1px solid black; /* Bordas em vermelho */
+}
+
+button.start.active {
+    background-color: #007bff; /* Azul quando ativo */
+	color: white; /* Cor do texto */
+}
+
+/* Estilo para o botão "Parar" */
+button.stop {
+	background-color: #fff; /* Cor branco padrão */
+    color: red; /* Cor do texto em vermelho */
+    border: 2px solid red; /* Bordas em vermelho */
+}
+
+/* Estilo para o botão "Excluir" */
+button.delete {
+    background-color: red; /* Cor de fundo vermelho */
+    color: white; /* Cor do texto */
+}
+.header {
+    position: sticky;  /* Permite que o elemento fique fixo ao rolar */
+    top: 0;           /* Fica no topo da página */
+    background-color: white;  /* Fundo branco */
+    padding: 20px;    /* Espaçamento interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Sombra suave para destacar */
+    z-index: 1000;    /* Garante que fique acima de outros elementos */
+	user-select: none; /* Impede a seleção de texto */
+	text-align: center;
+}
+
+
+#totalTime {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#taskList {
+    width: 100%; /* Largura total da tabela */
+    border-collapse: collapse; /* Colapsa as bordas da tabela */
+}
+
+#taskList th, #taskList td {
+    border: 1px solid #ccc; /* Borda das células */
+    padding: 10px; /* Espaçamento interno */
+    text-align: center; /* Centraliza o texto nas células */
+}
+
+#taskList tr:nth-child(even) {
+    background-color: #f9f9f9; /* Cor de fundo alternada */
+}
+#taskList td {
+    border: 1px solid #ccc; /* Borda das células */
+    padding: 10px; /* Espaçamento interno */
+    text-align: center; /* Centraliza o texto nas células */
+}
+
+#taskList td.time {
+    width: 80px; /* Largura fixa para a coluna de tempo */
+}
+
+#taskList td.actions {
+    width: 220px; /* Largura fixa para a coluna de ações (botões) */
+}

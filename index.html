@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="styles.css"> <!-- CSS -->
+</head>
+<body>
+    <div class="header">  <!-- Adicione esta div -->
+        <h1>Gerenciador de Tarefas</h1>
+        <form id="taskForm">
+            <input type="text" id="taskName" placeholder="Nome da tarefa" required>
+            <button type="submit">Adicionar Tarefa</button>
+        </form>
+    </div>
+
+    <table id="taskList">
+        <thead>
+            <tr>
+                <th>Nome da Tarefa</th>
+                <th>Tempo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- As tarefas serão inseridas aqui pelo JavaScript -->
+        </tbody>
+    </table>
+
+    <div id="totalTime">Tempo Total: 00:00:00</div>
+    
+    <script src="script.js"></script> <!-- JavaScript -->
+</body>
+
+
+</html>
