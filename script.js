@@ -44,29 +44,32 @@ function addTaskToDOM(task) {
 }
 
 let timers = {};
-let activeTaskId = null; // Adiciona uma variável para rastrear a tarefa ativa
+let activeTaskId = null; 
+let startTime = null; // Adicione esta variável
 
 function startTimer(taskId) {
-    if (activeTaskId) { // Se já há uma tarefa ativa
-        stopTimer(activeTaskId); // Para a tarefa ativa
+    if (activeTaskId) {
+        stopTimer(activeTaskId); 
     }
 
     const tasks = JSON.parse(localStorage.getItem('tasks'));
     const task = tasks.find(t => t.id === taskId);
 
-    const startTime = Date.now() - (timers[taskId]?.elapsed || 0); // Subtrai o tempo já decorrido
-
-    // Inicializa o cronômetro específico da tarefa
-    timers[taskId] = { startTime, elapsed: task.timeSpent };
+    // Armazena a hora de início
+    startTime = Date.now();
+    
+    // Inicia o intervalo para atualização de tempo
+    timers[taskId] = { seconds: task.timeSpent };
     activeTaskId = taskId; // Define a tarefa ativa
     
     timers[taskId].interval = setInterval(() => {
-        const currentTime = Date.now();
-        const elapsedTime = Math.floor((currentTime - timers[taskId].startTime) / 1000); // Tempo decorrido em segundos
-        task.timeSpent = timers[taskId].elapsed + elapsedTime; // Atualiza o tempo no objeto
-        updateTaskDisplay(task);
-        updateLocalStorage(tasks);
-        updateTotalTime(tasks); // Atualiza o tempo total
+        const now = Date.now();
+        const elapsedTime = Math.floor((now - startTime) / 1000); // Calcule o tempo decorrido em segundos
+        task.timeSpent = timers[taskId].seconds + elapsedTime; // Atualiza o tempo na tarefa
+
+        updateTaskDisplay(task); 
+        updateLocalStorage(tasks); 
+        updateTotalTime(tasks); 
     }, 1000);
     
     // Marca o botão como ativo
@@ -79,20 +82,12 @@ function startTimer(taskId) {
 
 function stopTimer(taskId) {
     clearInterval(timers[taskId]?.interval);
-    const tasks = JSON.parse(localStorage.getItem('tasks'));
-    const task = tasks.find(t => t.id === taskId);
-
-    const currentTime = Date.now();
-    const elapsedTime = Math.floor((currentTime - timers[taskId].startTime) / 1000); // Calcula o tempo decorrido
-    task.timeSpent += elapsedTime; // Atualiza o tempo da tarefa
-    timers[taskId].elapsed = task.timeSpent; // Salva o tempo total decorrido
-    updateTaskDisplay(task);
-    updateLocalStorage(tasks); // Salva as alterações no localStorage
-    
     delete timers[taskId]; // Remove o cronômetro específico da tarefa
     if (activeTaskId === taskId) {
         activeTaskId = null; // Reseta a tarefa ativa se ela for parada
     }
+
+    startTime = null; // Limpa a hora de início
 
     // Remove a classe ativa do botão "Iniciar"
     const taskButton = document.querySelector(`button.start[data-task-id='${taskId}']`);
@@ -100,6 +95,7 @@ function stopTimer(taskId) {
         taskButton.classList.remove('active');
     }
 }
+
 
 function updateTaskDisplay(task) {
     const taskRow = document.getElementById(task.id);
