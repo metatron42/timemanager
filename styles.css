@@ -49,7 +49,7 @@ button:hover {
 button.start {
     background-color: #fff; /* Cor branco padrão */
     color: black; /* Cor do texto */
-	border: 1px solid black; /* Bordas em vermelho */
+	border: 2px solid black; /* Bordas em vermelho */
 }
 
 button.start.active {
@@ -68,6 +68,7 @@ button.stop {
 button.delete {
     background-color: red; /* Cor de fundo vermelho */
     color: white; /* Cor do texto */
+	border: 2px solid red; /* Bordas em vermelho */
 }
 .header {
     position: sticky;  /* Permite que o elemento fique fixo ao rolar */
