@@ -48,6 +48,10 @@ let activeTaskId = null;
 let startTime = null; // Adicione esta variável
 
 function startTimer(taskId) {
+    if (activeTaskId === taskId) {
+        return; // Se a tarefa já está ativa, não faz nada
+    }
+
     if (activeTaskId) {
         stopTimer(activeTaskId); 
     }
@@ -81,12 +85,13 @@ function startTimer(taskId) {
 }
 
 function stopTimer(taskId) {
-    clearInterval(timers[taskId]?.interval);
-    delete timers[taskId]; // Remove o cronômetro específico da tarefa
-    if (activeTaskId === taskId) {
-        activeTaskId = null; // Reseta a tarefa ativa se ela for parada
+    if (activeTaskId !== taskId) {
+        return; // Se a tarefa não está ativa, não faz nada
     }
 
+    clearInterval(timers[taskId]?.interval);
+    delete timers[taskId]; // Remove o cronômetro específico da tarefa
+    activeTaskId = null; // Reseta a tarefa ativa
     startTime = null; // Limpa a hora de início
 
     // Remove a classe ativa do botão "Iniciar"
